@@ -13,29 +13,35 @@ from turtle import *
 import random
 from freegames import square, vector
 
+
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
+snake_color, food_color = "#54457F", "#F5A6E6"
 
 def update_food():
     """
-    The update_food function is responsible for updating the position of the food object.
-    It does this by randomly choosing a direction to move in, and then moving it 9 pixels in that direction.
+    The update_food function is responsible for updating the food's position.
+    It does this by randomly generating a number between 0 and 7, and if that number is 0, it will then generate another random
+    number between 0 and 1 to determine whether or not to change the x coordinate of the food. If that second random number is
+    0, it will then generate a third random number between 0 and 1 to determine whether or not to add 10 pixels (if it's 1) or
+    subtract 10 pixels (if it's 2). It does this same process with y coordinates as well.
 
-    :return: Nothing
+    :return: None
     :doc-author: Lou
     """
 
-    if random.randint(0,1) == 0:
-        if random.randint(0,1) == 0:
-            food.x += 9
+    if random.randint(0, 7) == 0:
+        if random.randint(0, 1) == 0:
+            if random.randint(0, 1) == 0:
+                food.x += 10
+            else:
+                food.x -= 10
         else:
-            food.x -= 9
-    else:
-        if random.randint(0, 1) == 1:
-            food.y += 9
-        else:
-            food.y -= 9
+            if random.randint(0, 1) == 1:
+                food.y += 10
+            else:
+                food.y -= 10
 
 
 def change(x, y):
@@ -55,7 +61,7 @@ def move():
     head.move(aim)
 
     if not inside(head) or head in snake:
-        square(head.x, head.y, 9, 'red')
+        square(head.x, head.y, 10, snake_color)
         update()
         return
 
@@ -71,11 +77,12 @@ def move():
     clear()
 
     for body in snake:
-        square(body.x, body.y, 9, 'black')
+        square(body.x, body.y, 10, snake_color)
 
-    square(food.x, food.y, 9, 'green')
+    square(food.x, food.y, 10, food_color)
     update()
     update_food()
+
     ontimer(move, 100)
 
 
