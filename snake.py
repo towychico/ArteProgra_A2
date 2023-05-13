@@ -13,11 +13,25 @@ from turtle import *
 import random
 from freegames import square, vector
 
-
+COLORS = ["#54457F", "#AC7B84", "#4C243B", "#B84A62", "#F5A6E6"]  # color constants
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
 snake_color, food_color = "#54457F", "#F5A6E6"
+
+def update_color():
+    """
+    The update_color function is used to change the color of the snake and food.
+    It does this by randomly choosing a color from a list of colors.
+
+    :return: The colors of the snake and food
+    :doc-author: Alvaro
+    """
+
+    global snake_color, food_color
+    snake_color = random.choice(COLORS)
+    food_color = random.choice(COLORS)
+
 
 def update_food():
     """
@@ -82,7 +96,7 @@ def move():
     square(food.x, food.y, 10, food_color)
     update()
     update_food()
-
+    update_color()
     ontimer(move, 100)
 
 
